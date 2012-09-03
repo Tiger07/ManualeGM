@@ -32,7 +32,7 @@ for file in $(ls -1)
 				newtitle="$choice"
 			fi
 
-			if [ -n $newtitle ]; then
+			if [ -n "$newtitle" ]; then
 				sed "s/$atitle/$newtitle/" < $file > _
 				mv _ $file
 				sed -e "s/$htitle/$newtitle/" -e "s/$ttitle/$newtitle/" < $file2 > _
