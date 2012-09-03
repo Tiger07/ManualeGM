@@ -8,8 +8,8 @@ for file in $(ls -1)
 		do
 		atitle=`echo $link | grep -m 1 -o '>[^<]*<' | grep -o '[^<>]*'`
 		file2=`echo $link | grep -o 'href="[^"]*"' | grep -o '="[^"]*' | grep -o '[^="]*'`
-		ttitle=`grep -o '<title>.*</title>' $file2 | grep -o '>[^<]*<' | grep -o '[^<>]*'`
-		htitle=`grep -o '<h[1-7]>.*</h[1-7]>' $file2 | grep -o '>[^<]*<' | grep -o '[^<>]*'`
+		ttitle=`grep -m 1 -o '<title>.*</title>' $file2 | grep -o '>[^<]*<' | grep -o '[^<>]*'`
+		htitle=`grep -m 1 -o '<[hH][1-7]>.*</[hH][1-7]>' $file2 | grep -o '>[^<]*<' | grep -o '[^<>]*'`
 		
 		if [ "$atitle" != "$htitle" -o "$htitle" != "$ttitle" ]; then
 			echo "Titoli diversi. Inserisci il numero di uno di questi, oppure inserisci un altro titolo."
