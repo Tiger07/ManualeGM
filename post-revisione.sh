@@ -33,7 +33,6 @@ for file in $(ls -1)
 
 			if [ -n $newtitle ]; then
 				sed "s/$atitle/$newtitle/" < $file > _
-				echo Â"A: $atitle, T: $ttitle, H: $htitle, N: $newtitle"
 				mv _ $file
 				sed -e "s/$htitle/$newtitle/" -e "s/$ttitle/$newtitle/" < $file2 > _
 				mv _ $file2
