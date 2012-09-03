@@ -1,4 +1,7 @@
-for file in $(ls -1)
+#!/bin/sh
+#Usare con ./post-revisione.sh scelta-default
+
+for file in $(ls -1 | grep '\.html$')
 	do
 	sed -f accenti.sed < $file > _
 	mv _ $file
@@ -17,8 +20,13 @@ for file in $(ls -1)
 			echo "2) $ttitle"
 			echo "3) $htitle"
 			echo "4) (Lascia così)"
-			choice="4"
+
+			choice="$1"
 			read choice
+
+			if [ -z "$choice" ]; then
+				choice="$1"
+			fi
 
 			if [ "$choice" = "1" ]; then
 				newtitle=$atitle
