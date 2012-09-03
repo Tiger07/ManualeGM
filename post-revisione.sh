@@ -17,18 +17,19 @@ for file in $(ls -1)
 			echo "2) $ttitle"
 			echo "3) $htitle"
 			echo "4) (Lascia così)"
+			choice="4"
 			read choice
 
-			if [ $choice = "1" ]; then
+			if [ "$choice" = "1" ]; then
 				newtitle=$atitle
-			elif [ $choice == "2" ]; then
+			elif [ "$choice" = "2" ]; then
 				newtitle=$ttitle;
-			elif [ $choice == "3" ]; then
+			elif [ "$choice" = "3" ]; then
 				newtitle=$htitle;
-			elif [ $choice == "4" ]; then
+			elif [ "$choice" = "4" ]; then
 				newtitle=""
 			else
-				newtitle=$choice
+				newtitle="$choice"
 			fi
 
 			if [ -n $newtitle ]; then
