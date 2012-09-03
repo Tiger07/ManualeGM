@@ -4,14 +4,14 @@ for file in $(ls -1)
 	mv _ $file
 	IFS="
 "
-	for link in $(grep '<a[^>\n]*href="[^"\n]*"[^>\n]*>.*</a>' $file)
+	for link in $(grep -o '<a[^>\n]*href="[^"\n]*"[^>\n]*>.*</a>' $file)
 		do
-		atitle=`echo $link | grep -o '>[^<]*<' | grep -o '[^<>]*'`
+		atitle=`echo $link | grep -m 1 -o '>[^<]*<' | grep -o '[^<>]*'`
 		file2=`echo $link | grep -o 'href="[^"]*"' | grep -o '="[^"]*' | grep -o '[^="]*'`
-		htitle=`grep -o '<title>.*</title>' $file2 | grep -o '>[^<]*<' | grep -o '[^<>]*'`
-		ttitle=`grep -o '<h1>.*</h1>' $file2 | grep -o '>[^<]*<' | grep -o '[^<>]*'`
+		ttitle=`grep -o '<title>.*</title>' $file2 | grep -o '>[^<]*<' | grep -o '[^<>]*'`
+		htitle=`grep -o '<h[1-7]>.*</h[1-7]>' $file2 | grep -o '>[^<]*<' | grep -o '[^<>]*'`
 		
-		if [ $atitle != $htitle -o $htitle != $ttitle ]; then
+		if [ "$atitle" != "$htitle" -o "$htitle" != "$ttitle" ]; then
 			echo "Titoli diversi. Inserisci il numero di uno di questi, oppure inserisci un altro titolo."
 			echo "1) $atitle"
 			echo "2) $ttitle"
@@ -33,11 +33,12 @@ for file in $(ls -1)
 
 			if [ -n $newtitle ]; then
 				sed "s/$atitle/$newtitle/" < $file > _
+				echo Â"A: $atitle, T: $ttitle, H: $htitle, N: $newtitle"
 				mv _ $file
-				sed "s/$htitle/$newtitle/s/$ttitle/$newtitle" < $file2 > _
+				sed -e "s/$htitle/$newtitle/" -e "s/$ttitle/$newtitle/" < $file2 > _
 				mv _ $file2
 			fi
+			echo "======="
 		fi
-		echo "========="
 	done
 done
